@@ -1,0 +1,26 @@
+{
+  "name": "Trac Tools",
+  "version": "1.0",
+  "manifest_version": 2,
+  
+  "description": "Trac Tools",
+
+  "permissions": [ 
+    TODO Tickets url
+    "https://trac.example.org/ticket/*",
+    "contextMenus",
+    "storage"
+  ],
+
+  "content_scripts": [
+    {
+      TODO My tickets url
+      "matches": ["https://trac.example.org/report/12"],
+      "js": ["myTickets.js"]
+    }
+  ],
+  
+  "background": { 
+  	"scripts": ["contextMenu.js"]
+  }
+}
