@@ -1,3 +1,7 @@
+
+<img src="https://github.com/BroccoliHuang/resource/blob/master/TracTools/my%20ticket.png"/>
+<img src="https://github.com/BroccoliHuang/resource/blob/master/TracTools/parent%20tickets.png"/>
+
 功能：
 
 1-1. 進入 “My tickets“ 頁面會自動執行
