@@ -6,6 +6,10 @@ chrome.storage.sync.get("data", function(items) {
     var inputTickets = String(items.data).split("\n");
     var ticketText = [];
     var highlightCheckbox = [];
+    var extensionDateText = [];
+    var extensionButton = [];
+
+    extensionDate = new Date().addDays(30);
 
     for (var index = 1; index <= allTicket.length - 2; index += 2) {
       var ticket = allTicket[index].childNodes[1];
@@ -31,6 +35,27 @@ chrome.storage.sync.get("data", function(items) {
           allTicket[this.id].style.backgroundColor = "#ffffff";
         }
       });
+
+      // ticket extension date text
+      extensionDateText[index] = document.createElement("INPUT");
+      extensionDateText[index].type = "text";
+      extensionDateText[index].id = index;
+      extensionDateText[index].name = ticketText[index].textContent.substring(1);
+      extensionDateText[index].value = extensionDate
+      extensionDateText[index].maxlength=10
+      extensionDateText[index].size=10
+      ticket.childNodes[1].appendChild(extensionDateText[index]);
+
+      // ticket extension button
+      extensionButton[index] = document.createElement("INPUT");
+      extensionButton[index].type = "button";
+      extensionButton[index].id = index;
+      extensionButton[index].name = ticketText[index].textContent.substring(1);
+      extensionButton[index].value = "延票"
+      extensionButton[index].addEventListener("click", function() {
+        window.open("https://issue.kkinternal.com/trac/ticket/" + this.name + "?do_extension_ticket?" + extensionDateText[this.id].value, '_blank');
+      });
+      ticket.childNodes[1].appendChild(extensionButton[index]);
 
       // click to copy
       ticketText[index].onclick = function(){
@@ -99,4 +124,14 @@ function dateToTimeStamp(date){
   date = date.split("-");
   var newDate = date[1] + "/" + date[2] + "/" + date[0];
   return new Date(newDate).getTime();
+}
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return formatDate(date);
+}
+
+function formatDate(d){
+  return d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2)
 }

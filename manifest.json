@@ -6,20 +6,25 @@
   "description": "Trac Tools",
 
   "permissions": [ 
-    TODO Tickets url
-    "https://trac.example.org/ticket/*",
+    TODO TICKET_URL
+    "TICKET_URL/*",
     "contextMenus",
     "storage"
   ],
 
   "content_scripts": [
     {
-      TODO My tickets url
-      "matches": ["https://trac.example.org/report/12"],
+      TODO MY_TICKETS_URL
+      "matches": ["MY_TICKETS_URL"],
       "js": ["myTickets.js"]
+    },
+    {
+      TODO TICKET_URL
+      "matches": ["TICKET_URL/*?do_extension_ticket?*-*-*"],
+      "js": ["extensionTicket.js"]
     }
   ],
-  
+
   "background": { 
   	"scripts": ["contextMenu.js"]
   }
