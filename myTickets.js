@@ -6,10 +6,11 @@ chrome.storage.sync.get("data", function(items) {
     var inputTickets = String(items.data).split("\n");
     var ticketText = [];
     var highlightCheckbox = [];
-    var extensionDateText = [];
-    var extensionButton = [];
+    var postponeDateText = [];
+    var postponeUpdateText = [];
+    var postponeButton = [];
 
-    extensionDate = new Date().addDays(30);
+    postponeDate = new Date().addDays(30);
 
     for (var index = 1; index <= allTicket.length - 2; index += 2) {
       var ticket = allTicket[index].childNodes[1];
@@ -36,26 +37,38 @@ chrome.storage.sync.get("data", function(items) {
         }
       });
 
-      // ticket extension date text
-      extensionDateText[index] = document.createElement("INPUT");
-      extensionDateText[index].type = "text";
-      extensionDateText[index].id = index;
-      extensionDateText[index].name = ticketText[index].textContent.substring(1);
-      extensionDateText[index].value = extensionDate
-      extensionDateText[index].maxlength=10
-      extensionDateText[index].size=10
-      ticket.childNodes[1].appendChild(extensionDateText[index]);
+      // ticket postpone date text
+      ticket.childNodes[1].appendChild(document.createElement("BR"));
+      postponeDateText[index] = document.createElement("INPUT");
+      postponeDateText[index].type = "text";
+      postponeDateText[index].id = index;
+      postponeDateText[index].name = ticketText[index].textContent.substring(1);
+      postponeDateText[index].value = postponeDate
+      postponeDateText[index].size = 9
+      ticket.childNodes[1].appendChild(postponeDateText[index]);
 
-      // ticket extension button
-      extensionButton[index] = document.createElement("INPUT");
-      extensionButton[index].type = "button";
-      extensionButton[index].id = index;
-      extensionButton[index].name = ticketText[index].textContent.substring(1);
-      extensionButton[index].value = "延票"
-      extensionButton[index].addEventListener("click", function() {
-        window.open("https://issue.kkinternal.com/trac/ticket/" + this.name + "?do_extension_ticket?" + extensionDateText[this.id].value, '_blank');
+      // ticket postpone update text
+      ticket.childNodes[1].appendChild(document.createElement("BR"));
+      postponeUpdateText[index] = document.createElement("TEXTAREA");
+      postponeUpdateText[index].type = "textarea";
+      postponeUpdateText[index].id = index;
+      postponeUpdateText[index].name = ticketText[index].textContent.substring(1);
+      postponeUpdateText[index].value = ""
+      postponeUpdateText[index].style = "margin: 2px; width: 77px; height: 17px;"
+      postponeUpdateText[index].placeholder = "延票說明"
+      ticket.childNodes[1].appendChild(postponeUpdateText[index]);
+
+      // ticket postpone button
+      ticket.childNodes[1].appendChild(document.createElement("BR"));
+      postponeButton[index] = document.createElement("INPUT");
+      postponeButton[index].type = "button";
+      postponeButton[index].id = index;
+      postponeButton[index].name = ticketText[index].textContent.substring(1);
+      postponeButton[index].value = "延票"
+      postponeButton[index].addEventListener("click", function() {
+        window.open("https://issue.kkinternal.com/trac/ticket/" + this.name + "?do_postpone_ticket?" + postponeDateText[this.id].value + "?" + postponeUpdateText[this.id].value.replace(/\r?\n/g, "<br>"), '_blank');
       });
-      ticket.childNodes[1].appendChild(extensionButton[index]);
+      ticket.childNodes[1].appendChild(postponeButton[index]);
 
       // click to copy
       ticketText[index].onclick = function(){
